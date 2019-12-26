@@ -9,7 +9,7 @@ namespace Tubular.Multitasking
 {
     public abstract class RunnableTask
     {
-        // True is the task is currently running
+        // True if the task is currently running
         public bool isRunning => _task != null && !_task.IsCompleted;
 
         // True if stop has been called
