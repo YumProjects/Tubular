@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tubular
+namespace Tubular.Multitasking
 {
     public abstract class RunnableTask
     {

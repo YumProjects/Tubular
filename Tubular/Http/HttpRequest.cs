@@ -13,6 +13,9 @@ namespace Tubular.Http
         public string method { get; set; } = "";
         public string url { get; set; } = "";
 
+        // Empty constructor
+        public HttpRequest() { }
+
         // Standard constructor for method and url
         public HttpRequest(string method, string url)
         {

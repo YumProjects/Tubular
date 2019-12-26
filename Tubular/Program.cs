@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tubular.Http;
+using Tubular.Logging;
+using Tubular.Server;
 
 namespace Tubular
 {
@@ -61,7 +62,7 @@ namespace Tubular
 
             // Start tubular
             log.LogInfo("Starting Tubular...");
-            Server server = new Server(isApp, filePath, port);
+            TubularServer server = new TubularServer(isApp, filePath, port);
             server.Start();
 
             // Wait for key press

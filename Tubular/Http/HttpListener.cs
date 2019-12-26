@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using Tubular.Multitasking;
+using Tubular.Logging;
 
 namespace Tubular.Http
 {
@@ -76,7 +78,8 @@ namespace Tubular.Http
                     log.LogInfo("Received connection from " + client.Client.RemoteEndPoint + ".");
 
                     // Reads the request stream into an HttpRequest instance
-                    HttpRequest request = HttpRequest.FromStream(client.GetStream());
+                    HttpRequest request = new HttpRequest();
+                    request.FromStream(client.GetStream());
 
                     // Waits for the mutex then adds the new context
                     lock (receivedLock) received.Add(new HttpContext(request, client));

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tubular
+namespace Tubular.Logging
 {
     public struct LoggerClass
     {
@@ -33,21 +33,6 @@ namespace Tubular
         public void LogError(string str)
         {
             Logger.Log("[" + className + "] ERROR: " + str, ConsoleColor.Red);
-        }
-    }
-
-    public static class Logger
-    {
-        static object consoleLockObj = new object();
-
-        public static void Log(string str, ConsoleColor color)
-        {
-            lock (consoleLockObj)
-            {
-                Console.ForegroundColor = color;
-                Console.WriteLine(str);
-                Console.ResetColor();
-            }
         }
     }
 }

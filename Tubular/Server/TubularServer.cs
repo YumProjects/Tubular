@@ -6,10 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using Tubular.Http;
+using Tubular.Multitasking;
+using Tubular.Logging;
 
-namespace Tubular
+namespace Tubular.Server
 {
-    public class Server : RunnableTask
+    public class TubularServer : RunnableTask
     {
         // Basic server info
         public bool isApp { get; private set; }
@@ -21,7 +23,7 @@ namespace Tubular
         LoggerClass log = new LoggerClass("server");
 
         // Creates a Server instance from server info
-        public Server(bool isApp, string filePath, int port)
+        public TubularServer(bool isApp, string filePath, int port)
         {
             this.isApp = isApp;
             this.filePath = filePath;
