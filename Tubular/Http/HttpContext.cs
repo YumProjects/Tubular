@@ -21,6 +21,15 @@ namespace Tubular.Http
             this.client = client;
         }
 
+        // Sends a responce to the sender
+        public void Respond(HttpResponce responce)
+        {
+            StreamWriter writer = new StreamWriter(client.GetStream());
+            writer.Write(responce.ToString());
+            writer.Flush();
+        }
+
+        // Closes the connection
         public void Close()
         {
             client.Close();

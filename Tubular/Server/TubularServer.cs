@@ -68,11 +68,21 @@ namespace Tubular.Server
         // Handles a single HttpContext
         void HandleContext(HttpContext ctx)
         {
-            LoggerClass clientLog = new LoggerClass("client: " + ctx.client.Client.RemoteEndPoint);
+            LoggerClass clientLog = new LoggerClass("server: " + ctx.client.Client.RemoteEndPoint);
             clientLog.LogInfo("Handling request...");
             try
             {
+                string responceText = "<html><body><h1>Hello World!</h1></body></html>";
 
+                // Create responce instance
+                HttpResponce responce = new HttpResponce(200, "OK");
+                responce.body = responceText;
+                responce.SetHeader("Content-Length", responceText.Length.ToString());
+
+                clientLog.LogInfo("Sending responce...");
+
+                // Send the responce
+                ctx.Respond(responce);
             }
             catch (Exception ex)
             {
@@ -80,8 +90,7 @@ namespace Tubular.Server
             }
 
             // Close the context
-            ctx.Close();
-            clientLog.LogInfo("Request closed.");
+            clientLog.LogInfo("Request Handled.");
         }
     }
 }

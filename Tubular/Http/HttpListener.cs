@@ -73,18 +73,38 @@ namespace Tubular.Http
             {
                 if (listener.Pending())
                 {
-                    // Accepts a new TCP client
-                    TcpClient client = listener.AcceptTcpClient();
-                    log.LogInfo("Received connection from " + client.Client.RemoteEndPoint + ".");
-
-                    // Reads the request stream into an HttpRequest instance
-                    HttpRequest request = new HttpRequest();
-                    request.FromStream(client.GetStream());
-
-                    // Waits for the mutex then adds the new context
-                    lock (receivedLock) received.Add(new HttpContext(request, client));
+                    try
+                    {
+                        // Accepts a new TCP client
+                        TcpClient client = listener.AcceptTcpClient();
+                        Task.Run(() => ReveiveConnection(client));
+                    }
+                    catch(Exception ex)
+                    {
+                        log.LogError(ex.Message);
+                    }
                 }
                 Thread.Sleep(1); // Make sure the loop does't use to much CPU
+            }
+        }
+
+        void ReveiveConnection(TcpClient client)
+        {
+            LoggerClass clientLog = new LoggerClass("http: " + client.Client.RemoteEndPoint);
+            try
+            {
+                clientLog.LogInfo("Receiving connection from " + client.Client.RemoteEndPoint + ".");
+                // Reads the request stream into an HttpRequest instance
+                HttpRequest request = new HttpRequest();
+                request.FromStream(client.GetStream());
+
+                // Waits for the mutex then adds the new context
+                lock (receivedLock) received.Add(new HttpContext(request, client));
+                clientLog.LogInfo("Connection Received .");
+            }
+            catch (Exception ex)
+            {
+                clientLog.LogError(ex.Message);
             }
         }
     }
